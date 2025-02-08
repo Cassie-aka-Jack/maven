@@ -22,10 +22,10 @@ public class Animals {
     }
 
     public static void main(String[] args) {
-        Dog dog1 = new Dog("Doggy" );
-        Dog dog2 = new Dog("Goddy" );
-        Cat cat1 = new Cat("Caty" );
-        Cat cat2 = new Cat("Tacy" );
+        Dog dog1 = new Dog("Doggy");
+        Dog dog2 = new Dog("Goddy");
+        Cat cat1 = new Cat("Caty");
+        Cat cat2 = new Cat("Tacy");
 
         dog1.run(150);
         dog2.run(600);
@@ -41,10 +41,11 @@ public class Animals {
         System.out.println("Total cats: " + Cat.getCatCount());
 
         Cat[] cats = {cat1, cat2};
-        Cat.addFood(15);
+        FoodBowl foodBowl = new FoodBowl();
+        foodBowl.addFood(15);
 
         for (Cat cat : cats) {
-            cat.eat(10);
+            cat.eat(10, foodBowl);
         }
 
         for (Cat cat : cats) {
@@ -68,18 +69,18 @@ class Dog extends Animals {
     @Override
     public void run(double distance) {
         if (distance <= 500) {
-            System.out.println(name + " run " + distance + "m." );
+            System.out.println(name + " run " + distance + "m.");
         } else {
-            System.out.println(name + " can't run " + distance + "m." );
+            System.out.println(name + " can't run " + distance + "m.");
         }
     }
 
     @Override
     public void swim(double distance) {
         if (distance <= 10) {
-            System.out.println(name + " swim " + distance + "m." );
+            System.out.println(name + " swim " + distance + "m.");
         } else {
-            System.out.println(name + " can't swim " + distance + "m." );
+            System.out.println(name + " can't swim " + distance + "m.");
         }
     }
 }
@@ -87,7 +88,6 @@ class Dog extends Animals {
 class Cat extends Animals {
     private static int catCount = 0;
     private boolean isFull = false;
-    private static double foodBowl = 0;
 
     public Cat(String name) {
         super(name);
@@ -98,38 +98,52 @@ class Cat extends Animals {
         return catCount;
     }
 
-    public static void addFood(double amount) {
-        if (amount > 0) {
-            foodBowl += amount;
-        }
-    }
-
-    public void eat(double amount) {
-        if (amount > foodBowl) {
-            System.out.println(name + " can't eat, not enough food in the bowl!" );
+    public void eat(double amount, FoodBowl foodBowl) {
+        if (amount > foodBowl.getFoodAmount()) {
+            System.out.println(name + " can't eat, not enough food in the bowl!");
             return;
         }
-        foodBowl -= amount;
+        foodBowl.takeFood(amount);
         isFull = true;
-        System.out.println(name + " has eaten " + amount + " units of food." );
+        System.out.println(name + " has eaten " + amount + " units of food.");
     }
 
     @Override
     public void run(double distance) {
         if (distance <= 200) {
-            System.out.println(name + " run " + distance + "m." );
+            System.out.println(name + " run " + distance + "m.");
         } else {
-            System.out.println(name + " can't run " + distance + "m." );
+            System.out.println(name + " can't run " + distance + "m.");
         }
     }
 
     @Override
     public void swim(double distance) {
-        System.out.println(name + " can't swim!" );
+        System.out.println(name + " can't swim!");
     }
 
     @Override
     public boolean isFull() {
         return isFull;
+    }
+}
+
+class FoodBowl {
+    private double foodAmount = 0;
+
+    public void addFood(double amount) {
+        if (amount > 0) {
+            foodAmount += amount;
+        }
+    }
+
+    public void takeFood(double amount) {
+        if (amount > 0 && foodAmount >= amount) {
+            foodAmount -= amount;
+        }
+    }
+
+    public double getFoodAmount() {
+        return foodAmount;
     }
 }
