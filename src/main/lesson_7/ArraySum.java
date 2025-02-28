@@ -1,18 +1,5 @@
 public class ArraySum {
 
-    //исключения
-    public static class MyArraySizeException extends Exception {
-        public MyArraySizeException(String message) {
-            super(message);
-        }
-    }
-
-    public static class MyArrayDataException extends Exception {
-        public MyArrayDataException(String message) {
-            super(message);
-        }
-    }
-
     //суммирование элементов массива
     public static int sumArray(String[][] array) throws MyArraySizeException, MyArrayDataException {
         if (array.length != 4 || array[0].length != 4) {
@@ -47,5 +34,17 @@ public class ArraySum {
         } catch (MyArrayDataException e) {
             System.out.println("Ошибка: " + e.getMessage());
         }
+    }
+}
+
+class MyArraySizeException extends Exception {
+    public MyArraySizeException(String message) {
+        super(message);
+    }
+}
+
+class MyArrayDataException extends Exception {
+    public MyArrayDataException(String message) {
+        super(message);
     }
 }
