@@ -3,9 +3,11 @@ import java.util.regex.*;
 
 class PhoneDirectory {
     private Map<String, List<String>> directory;
+    private Map<String, String> phoneToSurname;
 
     public PhoneDirectory() {
         directory = new HashMap<>();
+        phoneToSurname = new HashMap<>();
         add("Иванов", "8(921)1234567");
         add("Иванов", "8(921)7654321");
         add("Иванов", "8(921)1112233");
@@ -21,15 +23,22 @@ class PhoneDirectory {
     public boolean add(String surname, String phoneNumber) {
         if (!isValidSurname(surname)) {
             System.out.println("Некорректный формат фамилии: " + surname);
-            return false; // Фамилия не соответствует формату
+            return false;
         }
-        if (isValidPhoneNumber(phoneNumber)) {
-            directory.computeIfAbsent(surname, k -> new ArrayList<>()).add(phoneNumber);
-            return true; // Номер добавлен успешно
-        } else {
+        if (!isValidPhoneNumber(phoneNumber)) {
             System.out.println("Некорректный формат номера телефона: " + phoneNumber);
-            return false; // Номер не добавлен
+            return false;
         }
+        if (phoneToSurname.containsKey(phoneNumber)) {
+            String existingSurname = phoneToSurname.get(phoneNumber);
+            if (!existingSurname.equals(surname)) {
+                System.out.println("Номер " + phoneNumber + " уже связан с фамилией " + existingSurname);
+                return false;
+            }
+        }
+        directory.computeIfAbsent(surname, k -> new ArrayList<>()).add(phoneNumber);
+        phoneToSurname.put(phoneNumber, surname);
+        return true;
     }
 
     public List<String> get(String surname) {
@@ -51,7 +60,6 @@ class PhoneDirectory {
     public static void main(String[] args) {
         PhoneDirectory pd = new PhoneDirectory();
         Scanner scanner = new Scanner(System.in);
-
         while (true) {
             System.out.println("\nВведите цифру необходимого действия:");
             System.out.println("1. Найти номер по фамилии.");
@@ -64,10 +72,10 @@ class PhoneDirectory {
                 choice = scanner.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("\nНеверный выбор. Попробуйте снова.");
-                scanner.next(); // Очистка буфера сканера
-                continue; // Переход к следующей итерации цикла
+                scanner.next();
+                continue;
             }
-            scanner.nextLine(); // Очистка буфера после nextInt()
+            scanner.nextLine();
 
             if (choice == 1) {
                 System.out.print("\nВведите фамилию для поиска: ");
@@ -78,24 +86,21 @@ class PhoneDirectory {
                 } else {
                     System.out.println("Номера для фамилии " + surname + ": " + phoneNumbers);
                 }
+
             } else if (choice == 2) {
                 System.out.print("\nВведите фамилию на русском языке с заглавной буквы: ");
                 String surname = scanner.nextLine();
-
-                // Проверка фамилии
                 if (!pd.isValidSurname(surname)) {
                     System.out.println("Некорректный формат фамилии: " + surname);
-                    continue; // Прерываем текущую итерацию цикла
+                    continue;
                 }
-
                 System.out.print("Введите номер телефона в формате 8(***)*******: ");
                 String phoneNumber = scanner.nextLine();
-
-                // Проверка номера телефона
                 boolean isAdded = pd.add(surname, phoneNumber);
                 if (isAdded) {
                     System.out.println("Запись добавлена.");
                 }
+
             } else if (choice == 3) {
                 System.out.println("Выход из программы.");
                 break;
