@@ -5,7 +5,7 @@ class TriangleAreaTest {
 
     @Test
     void testCalculateArea() {
-        assertEquals(10, TriangleArea.calculateArea(5, 4)); // Площадь треугольника с основанием 5 и высотой 4
+        assertEquals(10, TriangleArea.calculateArea(5, 4));
     }
 
     @Test
