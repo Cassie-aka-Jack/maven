@@ -5,7 +5,7 @@
             <class name="FactorialTestNG"/>
             <class name="TriangleAreaTestNG"/>
             <class name="ArithmeticOperationsTestNG"/>
-            <class name="NumberComparisonTestNG"/>
+            <class name="NumberComparatorTestNG"/>
         </classes>
     </test>
 </suite>
