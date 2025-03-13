@@ -30,7 +30,7 @@ public class MtsTest extends WebDriverTest {
     @Test
     public void testContinueButton() {
         HomePage homePage = new HomePage(driver);
-        homePage.fillFormAndClickContinue("29777777", "100", "test@example.com");
+        homePage.fillFormAndClickContinue("297777777", "100", "test@example.com");
         Assert.assertNotEquals(driver.getCurrentUrl(), "https://www.mts.by", "Форма не была отправлена");
     }
 }

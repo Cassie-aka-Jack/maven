@@ -12,7 +12,7 @@ public class WebDriverTest {
     public void setup() {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
-        options.setBinary("C:\\Minun\\chrome-win64\\chromeTesting.exe"); // Убедитесь, что путь правильный
+        options.setBinary("C:\\Minun\\chrome-win64\\chromeTesting.exe");
         driver = new ChromeDriver(options);
         driver.get("https://www.mts.by");
     }
