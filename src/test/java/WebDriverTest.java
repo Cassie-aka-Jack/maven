@@ -22,7 +22,7 @@ public class WebDriverTest {
         options.setBinary("C:\\Minun\\chrome-win64\\chromeTesting.exe");
         driver = new ChromeDriver(options);
         driver.get("https://www.mts.by");
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(60));
         closeCookiePopup();
     }
 

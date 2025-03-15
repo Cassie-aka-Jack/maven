@@ -1,12 +1,6 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
-import java.time.Duration;
 
 public class MtsTest extends WebDriverTest {
 
@@ -56,19 +50,22 @@ public class MtsTest extends WebDriverTest {
         HomePage homePage = new HomePage(driver);
         homePage.selectServiceOption(serviceOption);
         homePage.clickContinueButton();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         switch (serviceOption) {
             case "Домашний интернет":
-                Assert.assertEquals(homePage.getSubscriberNumberFieldErrorText(), "Заполните это поле.", "Сообщение об ошибке для незаполненного номера абонента не отображается");
+                Assert.assertEquals(
+                        homePage.getSubscriberNumberFieldErrorText(), "Заполните это поле.", "Сообщение об ошибке для поля '" + fieldName + "' не отображается");
                 break;
             case "Рассрочка":
-                Assert.assertEquals(homePage.getAccountNumberFieldErrorText(), "Заполните это поле.", "Сообщение об ошибке для незаполненного номера счета не отображается");
+                Assert.assertEquals(
+                        homePage.getAccountNumberFieldErrorText(), "Заполните это поле.", "Сообщение об ошибке для поля '" + fieldName + "' не отображается");
                 break;
             case "Задолженность":
-                Assert.assertEquals(homePage.getArrearsAccountNumberFieldErrorText(), "Заполните это поле.", "Сообщение об ошибке для незаполненного номера счета не отображается");
+                Assert.assertEquals(
+                        homePage.getArrearsAccountNumberFieldErrorText(), "Заполните это поле.", "Сообщение об ошибке для поля '" + fieldName + "' не отображается");
                 break;
         }
-        Assert.assertEquals(homePage.getAmountFieldErrorText(), "Заполните это поле.", "Сообщение об ошибке для незаполненной суммы не отображается");
+        Assert.assertEquals(
+                homePage.getAmountFieldErrorText(), "Заполните это поле.", "Сообщение об ошибке для поля '" + amountFieldName + "' не отображается");
     }
 
     @Test
@@ -78,8 +75,6 @@ public class MtsTest extends WebDriverTest {
         homePage.fillPhoneNumberField("297777777");
         homePage.fillAmountField("100");
         homePage.clickContinueButton();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-        wait.until(driver -> homePage.getAmountDisplayElement().isDisplayed());
         String displayedAmount = homePage.getDisplayedAmount();
         Assert.assertEquals(displayedAmount, "100.00 BYN", "Отображаемая сумма не соответствует ожидаемой");
     }
@@ -91,9 +86,8 @@ public class MtsTest extends WebDriverTest {
         homePage.fillPhoneNumberField("297777777");
         homePage.fillAmountField("100");
         homePage.clickContinueButton();
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         String buttonAmount = homePage.getAmountField();
-        Assert.assertEquals(buttonAmount, " Оплатить ", "Сумма на кнопке оплаты не соответствует ожидаемой");
+        Assert.assertEquals(buttonAmount, " Оплатить 100.00 BYN ", "Сумма на кнопке оплаты не соответствует ожидаемой");
     }
 
     @Test
@@ -134,9 +128,7 @@ public class MtsTest extends WebDriverTest {
         homePage.fillPhoneNumberField("297777777");
         homePage.fillAmountField("100");
         homePage.clickContinueButton();
-        System.out.println("Проверка метки поля 'CVC'...");
-        String cvcLabel = homePage.getCvcFieldLabel();
-        Assert.assertEquals(cvcLabel, "CVC", "Надпись в поле 'CVC' не соответствует ожидаемой");
+        Assert.assertEquals(homePage.getCvcFieldLabel(), "CVC", "Надпись в поле 'CVC' не соответствует ожидаемой");
     }
 
     @Test

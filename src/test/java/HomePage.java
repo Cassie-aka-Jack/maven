@@ -10,7 +10,6 @@ import java.time.Duration;
 
 public class HomePage extends BasePage {
 
-    // Существующие элементы
     @FindBy(xpath = "//h2[contains(text(), 'Онлайн пополнение')]")
     private WebElement blockTitle;
 
@@ -74,16 +73,15 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//input[@label='Номер карты']")
     private WebElement cardNumberLabel;
 
-    @FindBy(xpath = "//input[@placeholder='Срок действия']")
+    @FindBy(xpath = "//input[@label='Срок действия']")
     private WebElement expirationDateField;
 
-    @FindBy(xpath = "//input[@placeholder='CVC']")
+    @FindBy(xpath = "//input[@label='CVC']")
     private WebElement cvcField;
 
-    @FindBy(xpath = "//input[@placeholder='Имя держателя (как на карте)']")
+    @FindBy(xpath = "//input[@label='Имя держателя (как на карте)']")
     private WebElement cardHolderField;
 
-    // Новые поля для fieldName и amountFieldName
     @FindBy(xpath = "//input[@id='connection-phone']")
     private WebElement fieldName;
 
@@ -93,14 +91,6 @@ public class HomePage extends BasePage {
     public HomePage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
-    }
-
-    public WebElement getFieldName() {
-        return fieldName;
-    }
-
-    public WebElement getAmountFieldName() {
-        return amountFieldName;
     }
 
     public String getBlockTitle() {
@@ -156,11 +146,7 @@ public class HomePage extends BasePage {
     public void clickContinueButton() {
         try {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-            WebElement continueButton = wait.until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//button[contains(text(), 'Продолжить')]")
-            ));
-
-            continueButton.click(); // Стандартный клик
+            continueButton.click();
         } catch (Exception e) {
             throw new RuntimeException("Не удалось кликнуть на кнопку 'Продолжить'.", e);
         }
@@ -192,16 +178,6 @@ public class HomePage extends BasePage {
 
     public void fillAmountField(String amount) {
         amountField.sendKeys(amount);
-    }
-
-    public void fillFormAndClickContinue(String phoneNumber, String amount, String email) {
-        fillPhoneNumberField(phoneNumber);
-        fillAmountField(amount);
-        clickContinueButton();
-    }
-
-    public WebElement getAmountDisplayElement() {
-        return amountInPopup;
     }
 
     public String getDisplayedAmount() {
