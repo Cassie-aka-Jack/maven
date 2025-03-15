@@ -7,7 +7,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
-
 public class HomePage extends BasePage {
 
     @FindBy(xpath = "//h2[contains(text(), 'Онлайн пополнение')]")
@@ -145,7 +144,7 @@ public class HomePage extends BasePage {
 
     public void clickContinueButton() {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+            new WebDriverWait(driver, Duration.ofSeconds(60));
             continueButton.click();
         } catch (Exception e) {
             throw new RuntimeException("Не удалось кликнуть на кнопку 'Продолжить'.", e);
